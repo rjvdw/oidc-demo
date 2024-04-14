@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+import { OIDC } from "../lib/oidc";
+
+const oidc = new OIDC(Astro.cookies);
+const params = Astro.url.searchParams;
+
+let error: string;
+try {
+    const url = await oidc.handleLoginFlow(params);
+    return Astro.redirect(url);
+} catch (err) {
+    error = String(err);
+}
+---
+
+<Base title="oidc demo">
+    <h1>oidc demo</h1>
+
+    <p class="error">{error}</p>
+
+    <p><a href="/">Back</a></p>
+</Base>
+
+<style>
+    .error {
+        color: red;
+    }
+</style>

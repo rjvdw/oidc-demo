@@ -1,0 +1,18 @@
+{
+    "private": true,
+    "workspaces": [
+        "web"
+    ],
+    "scripts": {
+        "check": "cd web && npx astro check",
+        "prettier": "prettier --write . 'web/src/**/*.astro'",
+        "stylelint": "stylelint --fix -f verbose web/**/*.{css,astro}"
+    },
+    "devDependencies": {
+        "prettier": "^3.2.5",
+        "prettier-plugin-astro": "^0.13.0",
+        "stylelint": "^16.3.1",
+        "stylelint-config-html": "^1.1.0",
+        "stylelint-config-recess-order": "^5.0.0"
+    }
+}

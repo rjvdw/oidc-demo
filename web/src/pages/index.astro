@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+import { OIDC } from "../lib/oidc";
+import { Api } from "../lib/api";
+import { jwtDecode } from "jwt-decode";
+
+const oidc = new OIDC(Astro.cookies);
+const api = new Api(oidc);
+
+const accessToken = await oidc.getAccessToken();
+const expirations = oidc.getExpirations();
+
+const response = await api.getHello();
+const data = await response.text();
+
+const dateTimeFormatter = new Intl.DateTimeFormat(undefined, {
+    dateStyle: "long",
+    timeStyle: "medium",
+});
+
+const formatJwt = (value: string) => JSON.stringify(jwtDecode(value), null, 2);
+---
+
+<Base title="oidc demo">
+    <h1>oidc demo</h1>
+
+    <h2>API</h2>
+
+    <p>API responded with: {response.status}</p>
+    {data && <pre>{data}</pre>}
+
+    {
+        oidc.isLoggedIn() ? (
+            <>
+                <h2>Tokens</h2>
+                <pre>{accessToken ? formatJwt(accessToken) : "-"}</pre>
+                {expirations.accessToken && (
+                    <p>Access token expires {dateTimeFormatter.format(expirations.accessToken)}</p>
+                )}
+                {expirations.refreshToken && (
+                    <p>Refresh token expires {dateTimeFormatter.format(expirations.refreshToken)}</p>
+                )}
+                <p>
+                    <a href="/logout">Log out</a>
+                </p>
+            </>
+        ) : (
+            <p>
+                <a href="/login">Log in</a>
+            </p>
+        )
+    }
+</Base>
+
+<style>
+    pre {
+        padding: 1rem;
+        overflow: auto;
+        border: thin solid;
+    }
+</style>
