@@ -15,7 +15,7 @@
         <maven.compiler.release>22</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <quarkus.platform.version>3.9.3</quarkus.platform.version>
+        <quarkus.platform.version>3.9.4</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.2.3</surefire-plugin.version>
         <lombok.version>1.18.32</lombok.version>
